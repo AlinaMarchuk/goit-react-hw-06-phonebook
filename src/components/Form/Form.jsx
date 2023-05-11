@@ -1,9 +1,28 @@
-import PropTypes from 'prop-types';
 import styles from './Form.module.css';
+import React from 'react';
+import { nanoid } from 'nanoid';
+import { useSelector, useDispatch } from 'react-redux';
+import { addContact } from 'redux/contactsSlise';
+import { getContacts } from 'redux/selectors';
 
-const Form = ({ formSubmit }) => {
+const Form = () => {
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    const name = event.currentTarget.elements.name.value;
+    const number = event.currentTarget.elements.number.value;
+    const newContact = { name: name, id: nanoid(), number: number };
+    contacts.some(contact => name === contact.name)
+      ? alert(`${name} is already in contacts.`)
+      : dispatch(addContact(newContact));
+    event.currentTarget.elements.name.value = '';
+    event.currentTarget.elements.number.value = '';
+  };
+
   return (
-    <form className={styles.form} onSubmit={formSubmit}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <label className={styles.label}>
         <span className={styles.labelText}>Name</span>
         <input
@@ -32,7 +51,5 @@ const Form = ({ formSubmit }) => {
     </form>
   );
 };
-
-Form.propTypes = { formSubmit: PropTypes.func.isRequired };
 
 export default Form;
