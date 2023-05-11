@@ -33,10 +33,10 @@ export const store = configureStore({
     }),
   ],
 
-  preloadedState: {
-    contacts: [],
-    filter: '',
-  },
+  // preloadedState: {
+  //   contacts: [],
+  //   filter: '',
+  // },
 
   // devTools: process.env.NODE_ENV !== 'production',
 });
